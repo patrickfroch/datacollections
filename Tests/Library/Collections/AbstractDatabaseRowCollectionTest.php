@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Esit\Datacollections\Tests\Library\Collections;
 
-use Esit\Databaselayer\Classes\Services\Helper\DatabaseHelper;
 use Esit\Databaselayer\Classes\Services\Helper\SerializeHelper;
 use Esit\Datacollections\Classes\Library\Cache\LazyLoadCache;
 use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
@@ -116,14 +115,6 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
                                            ->getMock();
 
         $this->lazyValue            = $this->getMockBuilder(ArrayCollection::class)
-                                           ->disableOriginalConstructor()
-                                           ->getMock();
-
-        $this->childData            = $this->getMockBuilder(ArrayCollection::class)
-                                           ->disableOriginalConstructor()
-                                           ->getMock();
-
-        $this->databaseHelper       = $this->getMockBuilder(DatabaseHelper::class)
                                            ->disableOriginalConstructor()
                                            ->getMock();
 

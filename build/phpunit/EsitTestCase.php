@@ -11,13 +11,13 @@
 
 namespace Esit\Datacollections;
 
-use Contao\TestCase\ContaoTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class EsitTestCase
  */
-class EsitTestCase extends ContaoTestCase
+class EsitTestCase extends TestCase
 {
 
 

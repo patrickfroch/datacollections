@@ -22,7 +22,6 @@
         "esit/ctoadapter": "^1.0"
     },
     "require-dev": {
-        "contao/test-case": "^5.3",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master"
     },
@@ -33,5 +32,11 @@
     },
     "extra": {
         "contao-manager-plugin": "Esit\\Datacollections\\Classes\\Contao\\Manager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "php-http/discovery": true
+        }
     }
 }

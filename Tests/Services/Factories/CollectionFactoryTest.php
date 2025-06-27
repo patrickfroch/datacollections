@@ -14,10 +14,7 @@ namespace Esit\Datacollections\Tests\Services\Factories;
 
 use Esit\Databaselayer\Classes\Services\Helper\DatabaseHelper;
 use Esit\Databaselayer\Classes\Services\Helper\SerializeHelper;
-use Esit\Datacollections\Classes\Library\Cache\LazyLoadCache;
 use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
-use Esit\Datacollections\Classes\Library\Collections\AbstractDatabaseRowCollection;
-use Esit\Datacollections\Classes\Services\Factories\CacheFactory;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConfigurationHelper;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
@@ -60,6 +57,10 @@ class CollectionFactoryTest extends TestCase
      */
     private $arrayCollection;
 
+
+    /**
+     * @var (ConfigurationHelper&MockObject)|MockObject
+     */
     private $configHelper;
 
 
@@ -73,9 +74,6 @@ class CollectionFactoryTest extends TestCase
      * @var (DatabasenameFactory&MockObject)|MockObject
      */
     private $nameFactory;
-
-
-    private $cache;
 
 
     /**
@@ -115,14 +113,6 @@ class CollectionFactoryTest extends TestCase
                                        ->getMock();
 
         $this->configHelper     = $this->getMockBuilder(ConfigurationHelper::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
-
-        $this->rowCollection    = $this->getMockBuilder(AbstractDatabaseRowCollection::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
-
-        $this->cache            = $this->getMockBuilder(LazyLoadCache::class)
                                        ->disableOriginalConstructor()
                                        ->getMock();
 

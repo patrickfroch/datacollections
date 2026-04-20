@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -36,7 +35,7 @@ class DatabaseRowCollection extends AbstractDatabaseRowCollection
      * Allgemeine Daten, die nicht aus der Datenbank stammen,
      * aber z. B. für die Ausgabe o.ä. benötigt werden.
      *
-     * @var ArrayCollection
+     * @var ArrayCollection<int|string, mixed>
      */
     protected ArrayCollection $commonData;
 
@@ -45,22 +44,24 @@ class DatabaseRowCollection extends AbstractDatabaseRowCollection
      * Diese ArrayCollection enthält je eine ArrayCollection mit den DatabaseRowCollections
      * der Kinddatensätze pro Eltern-Kind-Beziehung.
      *
-     * @var ArrayCollection
+     * @var ArrayCollection<int|string, mixed>
      */
     protected ArrayCollection $childData;
 
 
     /**
-     * @param DatabasenameFactory   $nameFactory
-     * @param CollectionFactory     $collectionFactory
-     * @param SerializeHelper       $serializeHelper
-     * @param ConverterHelper       $converterHelper
-     * @param DatabaseHelper        $databaseHelper
-     * @param LazyLoadHelper        $loadHelper
-     * @param ConfigurationHelper   $configurationHelper
-     * @param LazyLoadCache         $lazyLoadCache
-     * @param TablenameValue        $tablename
-     * @param array|ArrayCollection $data
+     * @param DatabasenameFactory                             $nameFactory
+     * @param CollectionFactory                               $collectionFactory
+     * @param SerializeHelper                                 $serializeHelper
+     * @param ConverterHelper                                 $converterHelper
+     * @param DatabaseHelper                                  $databaseHelper
+     * @param LazyLoadHelper                                  $loadHelper
+     * @param ConfigurationHelper                             $configurationHelper
+     * @param LazyLoadCache                                   $lazyLoadCache
+     * @param TablenameValue                                  $tablename
+     * @param array<mixed>|ArrayCollection<int|string, mixed> $data
+     *
+     * @phpstan-ignore method.childParameterType, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional
      */
     public function __construct(
         private readonly DatabasenameFactory $nameFactory,
@@ -93,11 +94,11 @@ class DatabaseRowCollection extends AbstractDatabaseRowCollection
     /**
      * {@inheritDoc}
      *
-     * @param array $elements
+     * @param array<mixed> $elements
      *
-     * @return $this
+     * @return static
      */
-    public function createFrom(array $elements): self
+    public function createFrom(array $elements): static
     {
         return new static(
             $this->nameFactory,
@@ -174,7 +175,7 @@ class DatabaseRowCollection extends AbstractDatabaseRowCollection
 
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getCommonDataAsArray(): array
     {
@@ -221,10 +222,12 @@ class DatabaseRowCollection extends AbstractDatabaseRowCollection
     public function getChildData(TablenamesInterface $childTable): ?ArrayCollection
     {
         if (true === $this->childData->contains($childTable)) {
-            return $this->childData->getValue($childTable->name);
+            return $this->childData->getValue($childTable->name); // @phpstan-ignore return.type
         }
 
-        $lazyValues = $this->loadHelper->loadChildData($this->tablename, $childTable, (int) $this->returnValue('id'));
+        $rawId      = $this->returnValue('id');
+        $id         = (\is_int($rawId) || \is_string($rawId) || \is_float($rawId)) ? (int) $rawId : 0;
+        $lazyValues = $this->loadHelper->loadChildData($this->tablename, $childTable, $id);
 
         if (null !== $lazyValues) {
             $this->childData->setValue($childTable->name, $lazyValues);

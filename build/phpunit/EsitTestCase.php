@@ -4,7 +4,6 @@
  * @author      pfroch <info@easySolutionsIT.de>
  * @link        http://easySolutionsIT.de
  * @copyright   e@sy Solutions IT <#YEAR#>
- * @license     EULA
  * @version     2.0.0
  * @since       28.08.2024 - 12:20
  */

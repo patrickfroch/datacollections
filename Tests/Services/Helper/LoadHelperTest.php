@@ -2,10 +2,12 @@
 
 /**
  * @since       14.09.2024 - 11:39
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -113,6 +115,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadOneReturnNullIfNoDataFound(): void
@@ -122,20 +125,20 @@ class LoadHelperTest extends TestCase
         $tablename  = 'tl_testtable';
         $data       = [];
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($fieldname);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($tablename);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadOneByValue')
                        ->with($value, $fieldname, $tablename)
                        ->willReturn($data);
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createDatabaseRowCollection');
 
         $this->assertNull($this->helper->loadOne($this->tablename, $this->fieldname, $value));
@@ -144,6 +147,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadOneReturnDatabaseRowCollectionIfDataFound(): void
@@ -153,20 +157,20 @@ class LoadHelperTest extends TestCase
         $tablename  = 'tl_testtable';
         $data       = ['test' => 'Data'];
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($fieldname);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($tablename);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadOneByValue')
                        ->with($value, $fieldname, $tablename)
                        ->willReturn($data);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createDatabaseRowCollection')
                                 ->with($this->tablename, $data)
                                 ->willReturn($this->databaserow);
@@ -177,27 +181,28 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadMultipleReturnNullIfValueISNotSerialized(): void
     {
         $value = 'testValue';
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn($value);
 
-        $this->fieldname->expects(self::never())
+        $this->fieldname->expects($this->never())
                         ->method('value');
 
-        $this->tablename->expects(self::never())
+        $this->tablename->expects($this->never())
                         ->method('value');
 
-        $this->dbHelper->expects(self::never())
+        $this->dbHelper->expects($this->never())
                        ->method('loadByList');
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createMultiDatabaseRowCollection');
 
         $this->assertNull($this->helper->loadMultiple($this->tablename, $this->fieldname, $value));
@@ -206,6 +211,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadMultipleReturnNullIfNoDataFound(): void
@@ -216,25 +222,25 @@ class LoadHelperTest extends TestCase
         $fieldname  = 'testfield';
         $tablename  = 'tl_testtable';
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn($search);
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($fieldname);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($tablename);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadByList')
                        ->with($search, $fieldname, $tablename)
                        ->willReturn($data);
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createMultiDatabaseRowCollection');
 
         $this->assertNull($this->helper->loadMultiple($this->tablename, $this->fieldname, $value));
@@ -243,6 +249,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadMultipleReturnCollectionIfDataFound(): void
@@ -253,25 +260,25 @@ class LoadHelperTest extends TestCase
         $fieldname  = 'testfield';
         $tablename  = 'tl_testtable';
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn($search);
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($fieldname);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($tablename);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadByList')
                        ->with($search, $fieldname, $tablename)
                        ->willReturn($data);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createMultiDatabaseRowCollection')
                                 ->with($this->tablename, $data)
                                 ->willReturn($this->arrayCollecttion);
@@ -283,6 +290,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadMultipleByIdReturnNullIfNoDataFound(): void
@@ -292,20 +300,20 @@ class LoadHelperTest extends TestCase
         $table  = 'tl_testtable';
         $rows   = [];
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($field);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($table);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadByValue')
                        ->with($pid, $field, $table)
                        ->willReturn($rows);
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createMultiDatabaseRowCollection');
 
         $this->assertNull($this->helper->loadMultipleById($this->tablename, $this->fieldname, $pid));
@@ -314,6 +322,7 @@ class LoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadMultipleByIdReturnArrayCollectionsIfDataFound(): void
@@ -323,20 +332,20 @@ class LoadHelperTest extends TestCase
         $table  = 'tl_testtable';
         $rows   = [['testData1'], ['testData2'], ['testData3'], ['testData4']];
 
-        $this->fieldname->expects(self::once())
+        $this->fieldname->expects($this->once())
                         ->method('value')
                         ->willReturn($field);
 
-        $this->tablename->expects(self::once())
+        $this->tablename->expects($this->once())
                         ->method('value')
                         ->willReturn($table);
 
-        $this->dbHelper->expects(self::once())
+        $this->dbHelper->expects($this->once())
                        ->method('loadByValue')
                        ->with($pid, $field, $table)
                        ->willReturn($rows);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createMultiDatabaseRowCollection')
                                 ->with($this->tablename, $rows)
                                 ->willReturn($this->arrayCollecttion);

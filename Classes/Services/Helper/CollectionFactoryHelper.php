@@ -8,7 +8,6 @@
  * @see         http://www.netgroup.de
  *
  * @copyright   NetGroup GmbH 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -39,7 +38,7 @@ class CollectionFactoryHelper
     /**
      * Erstellt eine ArrayCollection.
      *
-     * @param array $data
+     * @param array<mixed> $data
      *
      * @return ArrayCollection
      */
@@ -53,7 +52,7 @@ class CollectionFactoryHelper
      * Erzeugt aus einem TablenamesInterface und einem Datenarray eine DatabaseRowCollection.
      *
      * @param TablenamesInterface $table
-     * @param array               $data
+     * @param array<mixed>        $data
      *
      * @return DatabaseRowCollection
      *
@@ -71,8 +70,8 @@ class CollectionFactoryHelper
      * Erzeugt aus einem TablenamesInterface und einem Array (oder eine ArrayCollection) eine ArrayCollection mit
      * DatabaseRowCollections.
      *
-     * @param TablenamesInterface   $table
-     * @param array|ArrayCollection $data
+     * @param TablenamesInterface          $table
+     * @param array<mixed>|ArrayCollection $data
      *
      * @return ArrayCollection
      *
@@ -82,8 +81,9 @@ class CollectionFactoryHelper
         TablenamesInterface $table,
         array|ArrayCollection $data
     ): ArrayCollection {
-        $tablename = $this->dbNameFactory->createTablenameFromInterface($table);
+        $tablename  = $this->dbNameFactory->createTablenameFromInterface($table);
+        $dataArray  = $data instanceof ArrayCollection ? $data->toArray() : $data;
 
-        return $this->collectionFactory->createMultiDatabaseRowCollection($tablename, $data);
+        return $this->collectionFactory->createMultiDatabaseRowCollection($tablename, $dataArray);
     }
 }

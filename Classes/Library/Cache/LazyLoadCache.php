@@ -8,7 +8,6 @@
  * @see         http://www.netgroup.de
  *
  * @copyright   NetGroup GmbH 2025
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -131,6 +130,12 @@ class LazyLoadCache
         FieldnameValue $name,
         int $id,
     ): AbstractDatabaseRowCollection|ArrayCollection|null {
-        return $this->collection->getValue($table->value() . '_' . $name->value() . '_' . $id);
+        $value = $this->collection->getValue($table->value() . '_' . $name->value() . '_' . $id);
+
+        if ($value instanceof AbstractDatabaseRowCollection || $value instanceof ArrayCollection) {
+            return $value;
+        }
+
+        return null;
     }
 }

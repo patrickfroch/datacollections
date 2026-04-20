@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -141,7 +140,7 @@ class CollectionDatabaseHelper
     /**
      * Fassade für DatabaseHelper::loadByList()
      *
-     * @param array                    $valueList
+     * @param array<string>            $valueList
      * @param FieldnamesInterface      $orderField
      * @param TablenamesInterface      $table
      * @param string                   $order
@@ -224,8 +223,8 @@ class CollectionDatabaseHelper
     /**
      * Wrapper für DatabaseHelper::insert()
      *
-     * @param array|ArrayCollection $values
-     * @param TablenamesInterface   $table
+     * @param array<mixed>|ArrayCollection $values
+     * @param TablenamesInterface          $table
      *
      * @return int
      *
@@ -242,9 +241,9 @@ class CollectionDatabaseHelper
     /**
      * Wrapper für DatabaseHelper::update()
      *
-     * @param array|ArrayCollection $values
-     * @param int                   $id
-     * @param TablenamesInterface   $table
+     * @param array<mixed>|ArrayCollection $values
+     * @param int                          $id
+     * @param TablenamesInterface          $table
      *
      * @return void
      *
@@ -278,8 +277,8 @@ class CollectionDatabaseHelper
     /**
      * Wrapper für DatabaseHelper::save()
      *
-     * @param array|ArrayCollection $values
-     * @param TablenamesInterface   $table
+     * @param array<mixed>|ArrayCollection $values
+     * @param TablenamesInterface          $table
      *
      * @return int
      *

@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -36,14 +35,16 @@ abstract class AbstractDatabaseRowCollection extends AbstractCollection implemen
 
 
     /**
-     * @param CollectionFactory     $collectionFactory
-     * @param SerializeHelper       $serializeHelper
-     * @param ConverterHelper       $converterHelper
-     * @param LazyLoadHelper        $loadHelper
-     * @param ConfigurationHelper   $configHelper
-     * @param LazyLoadCache         $cache
-     * @param TablenameValue        $tablename
-     * @param array|ArrayCollection $data
+     * @param CollectionFactory            $collectionFactory
+     * @param SerializeHelper              $serializeHelper
+     * @param ConverterHelper              $converterHelper
+     * @param LazyLoadHelper               $loadHelper
+     * @param ConfigurationHelper          $configHelper
+     * @param LazyLoadCache                $cache
+     * @param TablenameValue               $tablename
+     * @param array<mixed>|ArrayCollection $data
+     *
+     * @phpstan-ignore method.childParameterType, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional, parameter.notOptional
      */
     public function __construct(
         private readonly CollectionFactory $collectionFactory,
@@ -79,7 +80,9 @@ abstract class AbstractDatabaseRowCollection extends AbstractCollection implemen
      */
     public function getValueFromNameObject(FieldnameValue $key): mixed
     {
-        $id = $this->returnValue('id') ?: null;
+        $rawId = $this->returnValue('id');
+        $id    = (\is_int($rawId) || \is_string($rawId) || \is_float($rawId)) ? (int) $rawId : null;
+        $id    = 0 !== $id ? $id : null;
 
         if (null !== $id && true === $this->cache->contains($this->tablename, $key, $id)) {
             return $this->cache->getValue($this->tablename, $key, $id);
@@ -88,7 +91,7 @@ abstract class AbstractDatabaseRowCollection extends AbstractCollection implemen
         $value = $this->returnValue($key->value());
 
         if (true === \is_scalar($value) && true === $this->configHelper->isLazyLodingField($this->tablename, $key)) {
-            $lazyValue = $this->loadHelper->loadData($this->tablename, $key, $value);
+            $lazyValue = $this->loadHelper->loadData($this->tablename, $key, \is_bool($value) ? (int) $value : (string) $value);
 
             if (null !== $id) {
                 $this->cache->setValue($this->tablename, $key, $id, $lazyValue);
@@ -111,7 +114,9 @@ abstract class AbstractDatabaseRowCollection extends AbstractCollection implemen
      */
     public function setValueWithNameObject(FieldnameValue $key, mixed $value): void
     {
-        $id     = $this->returnValue('id') ?: null;
+        $rawId  = $this->returnValue('id');
+        $id     = (\is_int($rawId) || \is_string($rawId) || \is_float($rawId)) ? (int) $rawId : null;
+        $id     = 0 !== $id ? $id : null;
         $value  = $value instanceof ArrayCollection ? $value->toArray() : $value;
 
         if (null !== $id && true === $this->cache->contains($this->tablename, $key, $id)) {

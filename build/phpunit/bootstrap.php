@@ -4,7 +4,6 @@
  * @author      pfroch <info@easySolutionsIT.de>
  * @link        http://easySolutionsIT.de
  * @copyright   e@sy Solutions IT 2014
- * @license     EULA
  * @filesource  bootstrap.php
  * @version     2.0.0
  * @since       21.03.14 - 09:54

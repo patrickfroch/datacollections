@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -63,17 +62,25 @@ class DcaHelper
      */
     public function getDepandancies(TablenameValue $tablename, FieldnameValue $fieldname): ?ArrayCollection
     {
+        /* @phpstan-ignore-next-line */
         $this->controller->loadDataContainer($tablename->value());
 
-        if (!empty($GLOBALS[DcaConfig::TL_DCA->name][$tablename->value()][DcaConfig::fields->name])) {
-            $dcaField = $GLOBALS[DcaConfig::TL_DCA->name][$tablename->value()][DcaConfig::fields->name];
+        /** @var array<string, array<string, mixed>> $tlDca */
+        $tlDca = $GLOBALS[DcaConfig::TL_DCA->name] ?? [];
 
-            if (!empty($dcaField[$fieldname->value()][DcaConfig::lazyloading->name])) {
-                $lazyLoading = $dcaField[$fieldname->value()][DcaConfig::lazyloading->name];
+        /** @var array<string, mixed> $tableConfig */
+        $tableConfig = $tlDca[$tablename->value()] ?? [];
 
-                if (!empty($lazyLoading)) {
-                    return $this->collectionFactory->createArrayCollection($lazyLoading);
-                }
+        /** @var array<string, mixed> $dcaField */
+        $dcaField = $tableConfig[DcaConfig::fields->name] ?? [];
+
+        if (!empty($dcaField)) {
+            /** @var array<string, mixed> $fieldConfig */
+            $fieldConfig = \is_array($dcaField[$fieldname->value()] ?? null) ? $dcaField[$fieldname->value()] : [];
+            $lazyLoading = $fieldConfig[DcaConfig::lazyloading->name] ?? null;
+
+            if (\is_array($lazyLoading)) {
+                return $this->collectionFactory->createArrayCollection($lazyLoading);
             }
         }
 
@@ -91,12 +98,25 @@ class DcaHelper
      */
     public function getChildDepandancies(TablenameValue $tablename, TablenameValue $childtablename): string
     {
+        /* @phpstan-ignore-next-line */
         $this->controller->loadDataContainer($tablename->value());
 
-        if (!empty($GLOBALS[DcaConfig::TL_DCA->name][$tablename->value()][DcaConfig::config->name])) {
-            $config = $GLOBALS[DcaConfig::TL_DCA->name][$tablename->value()][DcaConfig::config->name];
+        /** @var array<string, array<string, mixed>> $tlDca */
+        $tlDca = $GLOBALS[DcaConfig::TL_DCA->name] ?? [];
 
-            return $config[DcaConfig::lazyloading->name][$childtablename->value()] ?? '';
+        /** @var array<string, mixed> $tableConfig */
+        $tableConfig = $tlDca[$tablename->value()] ?? [];
+
+        /** @var array<string, mixed> $config */
+        $config = \is_array($tableConfig[DcaConfig::config->name] ?? null) ? $tableConfig[DcaConfig::config->name] : [];
+
+        if (!empty($config)) {
+            /** @var array<string, mixed> $lazyloading */
+            $lazyloading = \is_array($config[DcaConfig::lazyloading->name] ?? null) ? $config[DcaConfig::lazyloading->name] : [];
+            $key         = $childtablename->value();
+            $result      = $lazyloading[$key] ?? '';
+
+            return \is_string($result) ? $result : '';
         }
 
         return '';

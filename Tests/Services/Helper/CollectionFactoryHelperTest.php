@@ -8,7 +8,6 @@
  * @see         http://www.netgroup.de
  *
  * @copyright   NetGroup GmbH 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -25,7 +24,8 @@ use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-enum CollectionFactoryHelperTestTablenames implements TablenamesInterface {
+enum CollectionFactoryHelperTestTablenames implements TablenamesInterface
+{
     case test;
 }
 
@@ -99,7 +99,7 @@ class CollectionFactoryHelperTest extends TestCase
 
     public function testCreateArrayCollection(): void
     {
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createArrayCollection')
                                 ->with($this->data)
                                 ->willReturn($this->arrayCollection);
@@ -115,12 +115,12 @@ class CollectionFactoryHelperTest extends TestCase
      */
     public function testCreateDatabaseRowCollection(): void
     {
-        $this->dbNameFactory->expects(self::once())
+        $this->dbNameFactory->expects($this->once())
                             ->method('createTablenameFromInterface')
                             ->with(CollectionFactoryHelperTestTablenames::test)
                             ->willReturn($this->tablenameValue);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createDatabaseRowCollection')
                                 ->with($this->tablenameValue, $this->data)
                                 ->willReturn($this->dbRow);
@@ -138,12 +138,12 @@ class CollectionFactoryHelperTest extends TestCase
      */
     public function testCreateMultiDatabaseRowCollection(): void
     {
-        $this->dbNameFactory->expects(self::once())
+        $this->dbNameFactory->expects($this->once())
                             ->method('createTablenameFromInterface')
                             ->with(CollectionFactoryHelperTestTablenames::test)
                             ->willReturn($this->tablenameValue);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createMultiDatabaseRowCollection')
                                 ->with($this->tablenameValue, $this->data)
                                 ->willReturn($this->arrayCollection);

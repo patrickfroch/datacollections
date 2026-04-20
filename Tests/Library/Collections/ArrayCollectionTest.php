@@ -2,10 +2,12 @@
 
 /**
  * @since       15.09.2024 - 08:20
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -79,12 +81,12 @@ class ArrayCollectionTest extends TestCase
                            ->disableOriginalConstructor()
                            ->getMock();
 
-        $this->converterHelper->expects(self::once())
+        $this->converterHelper->expects($this->once())
                               ->method('convertArrayToCollection')
                               ->with(\serialize($data))
                               ->willReturn($collection);
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('serialize')
                               ->with($data)
                               ->willReturn(\serialize($data));
@@ -101,7 +103,7 @@ class ArrayCollectionTest extends TestCase
                          ->disableOriginalConstructor()
                          ->getMock();
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createCollectionIterator')
                                 ->with($this->collection)
                                 ->willReturn($iterator);
@@ -119,7 +121,7 @@ class ArrayCollectionTest extends TestCase
                            ->disableOriginalConstructor()
                            ->getMock();
 
-        $this->converterHelper->expects(self::once())
+        $this->converterHelper->expects($this->once())
                               ->method('convertArrayToCollection')
                               ->willReturn($collection);
 

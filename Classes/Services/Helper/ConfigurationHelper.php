@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -81,7 +80,10 @@ class ConfigurationHelper
             return null;
         }
 
-        return $this->nameFactory->createTablenameFromString($config->getValue(DcaConfig::table->name));
+        /** @var mixed $tableValue */
+        $tableValue = $config->getValue(DcaConfig::table->name);
+
+        return $this->nameFactory->createTablenameFromString(\is_string($tableValue) ? $tableValue : '');
     }
 
 
@@ -103,7 +105,10 @@ class ConfigurationHelper
             return null;
         }
 
-        return $this->nameFactory->createFieldnameFromString($config->getValue(DcaConfig::field->name), $tablename);
+        /** @var mixed $fieldValue */
+        $fieldValue = $config->getValue(DcaConfig::field->name);
+
+        return $this->nameFactory->createFieldnameFromString(\is_string($fieldValue) ? $fieldValue : '', $tablename);
     }
 
 
@@ -130,8 +135,8 @@ class ConfigurationHelper
     /**
      * Gibt das Feld mit der Eltern-Id in der Kindtabelle zurück.
      *
-     * @param TablenamesInterface $tablename
-     * @param TablenameValue      $childtablename
+     * @param TablenameValue $tablename
+     * @param TablenameValue $childtablename
      *
      * @return FieldnameValue|null
      *

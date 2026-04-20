@@ -2,18 +2,20 @@
 
 /**
  * @since       14.09.2024 - 12:39
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
 
 namespace Esit\Datacollections\Tests\Services\Helper;
 
-use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Library\Collections\AbstractDatabaseRowCollection;
+use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConfigurationHelper;
 use Esit\Datacollections\Classes\Services\Helper\LazyLoadHelper;
@@ -111,11 +113,11 @@ class LazyLoadHelperTest extends TestCase
 
     public function testSetCollectionFactory(): void
     {
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('setCollectionFactory')
                          ->with($this->collectionFactory);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('setCollectionFactory')
                            ->with($this->collectionFactory);
 
@@ -125,29 +127,30 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadDataReturnNullIfLazayLoadingIsNotConfigured(): void
     {
         $value = 'TestValue';
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->willReturn(false);
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('getForeignTable');
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('getForeignField');
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('isSerialised');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadMultiple');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadOne');
 
         $this->assertNull($this->helper->loadData($this->tablename, $this->fieldname, $value));
@@ -156,33 +159,34 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadDataReturnNullIfForeignTableIsNotConfigured(): void
     {
         $value = 'TestValue';
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->willReturn(true);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignTable')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(null);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->fieldname);
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('isSerialised');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadMultiple');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadOne');
 
         $this->assertNull($this->helper->loadData($this->tablename, $this->fieldname, $value));
@@ -191,33 +195,34 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadDataReturnNullIfForeignFieldIsNotConfigured(): void
     {
         $value = 'TestValue';
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->willReturn(true);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignTable')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->tablename);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(null);
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('isSerialised');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadMultiple');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadOne');
 
         $this->assertNull($this->helper->loadData($this->tablename, $this->fieldname, $value));
@@ -226,35 +231,36 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadDataReturnDatabaseRowCollectionIfOneRowFound(): void
     {
         $value = 'TestValue';
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->willReturn(true);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignTable')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->tablename);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->fieldname);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isSerialised')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(false);
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadMultiple');
 
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('loadOne')
                          ->with($this->tablename, $this->fieldname, $value)
                          ->willReturn($this->databaserow);
@@ -265,37 +271,38 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadDataReturnArrayCollectionIfOneRowFound(): void
     {
         $value = 'TestValue';
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->willReturn(true);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignTable')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->tablename);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getForeignField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn($this->fieldname);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isSerialised')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(true);
 
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('loadMultiple')
                          ->with($this->tablename, $this->fieldname, $value)
                          ->willReturn($this->arrayCollection);
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadOne');
 
         $this->assertSame($this->arrayCollection, $this->helper->loadData($this->tablename, $this->fieldname, $value));
@@ -304,23 +311,24 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadChildDataReturnNullIfFieldIsNotSet(): void
     {
         $pid = 12;
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getChildTable')
                            ->with(MyTablenames::tl_test)
                            ->willReturn($this->tablename);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getChildField')
                            ->with($this->tablename, $this->tablename)
                            ->willReturn(null);
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadMultipleById');
 
         $this->assertNull($this->helper->loadChildData($this->tablename, MyTablenames::tl_test, $pid));
@@ -329,23 +337,24 @@ class LazyLoadHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadChildDataReturnArrayCollectionsIfFieldIsSet(): void
     {
         $pid = 12;
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getChildTable')
                            ->with(MyTablenames::tl_test)
                            ->willReturn($this->tablename);
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('getChildField')
                            ->with($this->tablename, $this->tablename)
                            ->willReturn($this->fieldname);
 
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('loadMultipleById')
                          ->with($this->tablename, $this->fieldname, $pid)
                          ->willReturn($this->arrayCollection);

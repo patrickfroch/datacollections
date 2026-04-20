@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -21,6 +20,9 @@ use Esit\Datacollections\Classes\Exceptions\MethodNotAllowedException;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
 
+/**
+ * @extends ArrayCollection<int|string, mixed>
+ */
 abstract class AbstractCollection extends ArrayCollection
 {
 
@@ -29,7 +31,9 @@ abstract class AbstractCollection extends ArrayCollection
      * @param CollectionFactory $collectionFactory
      * @param SerializeHelper   $serializeHelper
      * @param ConverterHelper   $converterHelper
-     * @param array             $data
+     * @param array<mixed>      $data
+     *
+     * @phpstan-ignore method.childParameterType, parameter.notOptional, parameter.notOptional, parameter.notOptional
      */
     public function __construct(
         private readonly CollectionFactory $collectionFactory,
@@ -45,7 +49,7 @@ abstract class AbstractCollection extends ArrayCollection
      * Wrapper für $this->toArray()
      * (Wird für Kompatibilität mit dem FePackage benötigt!)
      *
-     * @return array
+     * @return array<mixed>
      */
     public function fetchData(): array
     {
@@ -105,7 +109,7 @@ abstract class AbstractCollection extends ArrayCollection
     /**
      * Gibt einen Iterator für das aktuelle Objekt zurück.
      *
-     * @return \Traversable
+     * @return \Traversable<int|string, mixed>
      */
     public function getIterator(): \Traversable
     {
@@ -138,7 +142,15 @@ abstract class AbstractCollection extends ArrayCollection
      */
     protected function returnValue(mixed $key): mixed
     {
-        return $this->converterHelper->convertArrayToCollection(parent::get($key));
+        if (\is_int($key)) {
+            $typedKey = (int) $key;
+        } elseif (\is_string($key)) {
+            $typedKey = $key;
+        } else {
+            $typedKey = '';
+        }
+
+        return $this->converterHelper->convertArrayToCollection(parent::get($typedKey));
     }
 
 
@@ -155,6 +167,14 @@ abstract class AbstractCollection extends ArrayCollection
     {
         $value = $this->serializeHelper->serialize($value);
 
-        parent::set($key, $value);
+        if (\is_int($key)) {
+            $typedKey = (int) $key;
+        } elseif (\is_string($key)) {
+            $typedKey = $key;
+        } else {
+            $typedKey = '';
+        }
+
+        parent::set($typedKey, $value);
     }
 }

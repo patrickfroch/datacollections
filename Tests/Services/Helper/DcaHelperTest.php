@@ -2,10 +2,12 @@
 
 /**
  * @since       14.09.2024 - 14:53
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -62,7 +64,9 @@ class DcaHelperTest extends TestCase
     private $helper;
 
 
-
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         $this->collectionFactory    = $this->getMockBuilder(CollectionFactory::class)
@@ -92,53 +96,62 @@ class DcaHelperTest extends TestCase
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetDepandanciesReturnNullIfNoDcsFound(): void
     {
         $tablename = 'tl_testtable';
         unset($GLOBALS[DcaConfig::TL_DCA->name]);
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::never())
+        $this->field->expects($this->never())
                     ->method('value');
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertNull($this->helper->getDepandancies($this->table, $this->field));
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetDepandanciesReturnNullIfNoDcsForTableFound(): void
     {
         $tablename = 'tl_testtable';
         unset($GLOBALS[DcaConfig::TL_DCA->name]);
         $GLOBALS[DcaConfig::TL_DCA->name]['tl_files']['config'] = ['testConfig'];
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::never())
+        $this->field->expects($this->never())
                     ->method('value');
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertNull($this->helper->getDepandancies($this->table, $this->field));
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetDepandanciesReturnNullIfNoFieldsFound(): void
     {
         $tablename  = 'tl_testtable';
@@ -146,24 +159,27 @@ class DcaHelperTest extends TestCase
         unset($GLOBALS[DcaConfig::TL_DCA->name]);
         $GLOBALS[DcaConfig::TL_DCA->name][$tablename][$fieldname]['palettes'] = '{title_legend},title;';
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::never())
+        $this->field->expects($this->never())
                     ->method('value');
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertNull($this->helper->getDepandancies($this->table, $this->field));
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetDepandanciesReturnNullIfFieldsConfigIsEmpty(): void
     {
         $tablename  = 'tl_testtable';
@@ -172,24 +188,27 @@ class DcaHelperTest extends TestCase
 
         $GLOBALS[DcaConfig::TL_DCA->name][$tablename][DcaConfig::fields->name] = [];
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::never())
+        $this->field->expects($this->never())
                     ->method('value');
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertNull($this->helper->getDepandancies($this->table, $this->field));
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetDepandanciesReturnNullIfFieldHaveNoLazyLoadungConfig(): void
     {
         $tablename  = 'tl_testtable';
@@ -201,26 +220,29 @@ class DcaHelperTest extends TestCase
             'label' => ['Test'],
         ];
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(3))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::once())
+        $this->field->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($fieldname);
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertNull($this->helper->getDepandancies($this->table, $this->field));
     }
 
 
-    public function testGetDepandanciesReturnArrayCollectionIfFieldHaveLazyLoadungConfig(): void
+    /**
+     * @return void
+     */
+    public function testGetDepandanciesReturnArrayCollectionIfFieldHaveLazyLoadingConfig(): void
     {
         $tablename      = 'tl_testtable';
         $fieldname      = 'testfild';
@@ -236,19 +258,19 @@ class DcaHelperTest extends TestCase
             DcaConfig::lazyloading->name    => $lazyLoading
         ];
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->table->expects(self::exactly(3))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->field->expects(self::exactly(2))
+        $this->field->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($fieldname);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createArrayCollection')
                                 ->with($lazyLoading)
                                 ->willReturn($this->arrayCollection);
@@ -257,17 +279,20 @@ class DcaHelperTest extends TestCase
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnEmptyStringIfDcaIsNotSet(): void
     {
         $tablename      = 'tl_testtable';
 
         unset($GLOBALS[DcaConfig::TL_DCA->name]);
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
@@ -275,6 +300,9 @@ class DcaHelperTest extends TestCase
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnEmptyStringIfTableIsNotSet(): void
     {
         $tablename      = 'tl_testtable';
@@ -292,18 +320,21 @@ class DcaHelperTest extends TestCase
             ]
         ];
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); //table auch child!
+        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); // table auch child!
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnEmptyStringIfConfigIsNotSet(): void
     {
         $tablename = 'tl_testtable';
@@ -321,18 +352,21 @@ class DcaHelperTest extends TestCase
             ]
         ];
 
-        $this->table->expects(self::exactly(2))
+        $this->table->expects($this->exactly(2))
                     ->method('value')
                     ->willReturn($tablename);
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); //table auch child!
+        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); // table auch child!
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnEmptyStringIfLazyLoadingIsNotSet(): void
     {
         $tablename = 'tl_testtable';
@@ -350,23 +384,25 @@ class DcaHelperTest extends TestCase
             ]
         ];
 
-        $this->table->expects(self::exactly(4))
+        $this->table->expects($this->exactly(3))
                     ->method('value')
                     ->willReturnOnConsecutiveCalls(
-                        $tablename,
                         $tablename,
                         $tablename,
                         $childTablename
                     );
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); //table auch child!
+        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); // table auch child!
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnEmptyStringIfChildtableIsNotSet(): void
     {
         $tablename = 'tl_testtable';
@@ -384,23 +420,25 @@ class DcaHelperTest extends TestCase
             ]
         ];
 
-        $this->table->expects(self::exactly(4))
+        $this->table->expects($this->exactly(3))
                     ->method('value')
                     ->willReturnOnConsecutiveCalls(
-                        $tablename,
                         $tablename,
                         $tablename,
                         $childTablename
                     );
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); //table auch child!
+        $this->assertEmpty($this->helper->getChildDepandancies($this->table, $this->table)); // table auch child!
     }
 
 
+    /**
+     * @return void
+     */
     public function testGetChildDepandanciesReturnStringIfChildtableIsSet(): void
     {
         $tablename = 'tl_testtable';
@@ -418,19 +456,18 @@ class DcaHelperTest extends TestCase
             ]
         ];
 
-        $this->table->expects(self::exactly(4))
+        $this->table->expects($this->exactly(3))
                     ->method('value')
                     ->willReturnOnConsecutiveCalls(
-                        $tablename,
                         $tablename,
                         $tablename,
                         $childTablename
                     );
 
-        $this->controller->expects(self::once())
+        $this->controller->expects($this->once())
                          ->method('loadDataContainer')
                          ->with($tablename);
 
-        $this->assertSame('data', $this->helper->getChildDepandancies($this->table, $this->table)); //table auch child!
+        $this->assertSame('data', $this->helper->getChildDepandancies($this->table, $this->table)); // table auch child!
     }
 }

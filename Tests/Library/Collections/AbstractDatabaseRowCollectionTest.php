@@ -2,10 +2,12 @@
 
 /**
  * @since       15.09.2024 - 16:06
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -14,8 +16,8 @@ namespace Esit\Datacollections\Tests\Library\Collections;
 
 use Esit\Databaselayer\Classes\Services\Helper\SerializeHelper;
 use Esit\Datacollections\Classes\Library\Cache\LazyLoadCache;
-use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Library\Collections\AbstractDatabaseRowCollection;
+use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConfigurationHelper;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
@@ -163,33 +165,34 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetValueFromNameObjectWillReturnLazyLoadedValueIfSet(): void
     {
         $id = 12;
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname)
                        ->willReturn(true);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('getValue')
                        ->with($this->tablename, $this->fieldname)
                        ->willReturn($this->lazyData);
 
-        $this->converterHelper->expects(self::once()) // für $this->returnValue()
+        $this->converterHelper->expects($this->once()) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturn($id);
 
-        $this->configHelper->expects(self::never())
+        $this->configHelper->expects($this->never())
                            ->method('isLazyLodingField');
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadData');
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('setValue');
 
         $rtn = $this->collection->getValueFromNameObject($this->fieldname);
@@ -199,6 +202,7 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetValueFromNameObjectWillReturnValueIfItIsNotALazaLoadingField(): void
@@ -206,30 +210,30 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
         $value  = 'testvalue';
         $id     = 12;
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname, $id)
                        ->willReturn(false);
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('getValue');
 
-        $this->converterHelper->expects(self::exactly(2)) // für $this->returnValue()
+        $this->converterHelper->expects($this->exactly(2)) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturnOnConsecutiveCalls(
                                   $id,
                                   $value
                               );
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(false);
 
-        $this->loadHelper->expects(self::never())
+        $this->loadHelper->expects($this->never())
                          ->method('loadData');
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('setValue');
 
         $rtn = $this->collection->getValueFromNameObject($this->fieldname);
@@ -239,6 +243,7 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetValueFromNameObjectWillReturnNullIfItIsALazyLoadingFieldAndNoDateWereFound(): void
@@ -246,32 +251,32 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
         $value = 'testvalue';
         $id     = 12;
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname, $id)
                        ->willReturn(false);
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('getValue');
 
-        $this->converterHelper->expects(self::exactly(2)) // für $this->returnValue()
+        $this->converterHelper->expects($this->exactly(2)) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturnOnConsecutiveCalls(
                                   $id,
                                   $value
                               );
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(true);
 
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('loadData')
                          ->with($this->tablename, $this->fieldname)
                          ->willReturn(null);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('setValue')
                        ->with($this->tablename, $this->fieldname, $id, null);
 
@@ -282,6 +287,7 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetValueFromNameObjectWillReturnLazyDataIfItIsALazyLoadingFieldAndDateWereFound(): void
@@ -289,32 +295,32 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
         $value = 'testvalue';
         $id     = 12;
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname, $id)
                        ->willReturn(false);
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('getValue');
 
-        $this->converterHelper->expects(self::exactly(2)) // für $this->returnValue()
+        $this->converterHelper->expects($this->exactly(2)) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturnOnConsecutiveCalls(
                                   $id,
                                   $value
                               );
 
-        $this->configHelper->expects(self::once())
+        $this->configHelper->expects($this->once())
                            ->method('isLazyLodingField')
                            ->with($this->tablename, $this->fieldname)
                            ->willReturn(true);
 
-        $this->loadHelper->expects(self::once())
+        $this->loadHelper->expects($this->once())
                          ->method('loadData')
                          ->with($this->tablename, $this->fieldname)
                          ->willReturn($this->lazyValue);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('setValue')
                        ->with($this->tablename, $this->fieldname, $id, $this->lazyValue);
 
@@ -328,16 +334,16 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
         $value  = 'testvalue';
         $id     = 12;
 
-        $this->converterHelper->expects(self::once()) // für $this->returnValue()
+        $this->converterHelper->expects($this->once()) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturn($id);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname, $id)
                        ->willReturn(true);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('remove')
                        ->with($this->tablename, $this->fieldname, $id);
 
@@ -350,16 +356,16 @@ class AbstractDatabaseRowCollectionTest extends EsitTestCase
         $value  = 'testvalue';
         $id     = 12;
 
-        $this->converterHelper->expects(self::once()) // für $this->returnValue()
+        $this->converterHelper->expects($this->once()) // für $this->returnValue()
                               ->method('convertArrayToCollection')
                               ->willReturn($id);
 
-        $this->cache->expects(self::once())
+        $this->cache->expects($this->once())
                        ->method('contains')
                        ->with($this->tablename, $this->fieldname, $id)
                        ->willReturn(false);
 
-        $this->cache->expects(self::never())
+        $this->cache->expects($this->never())
                        ->method('remove');
 
         $this->collection->setValueWithNameObject($this->fieldname, $value);

@@ -1,12 +1,8 @@
 parameters:
-    level: 8
-    checkGenericClassInNonGenericObjectType: false
+    level: 9
     bootstrapFiles:
         - ../../../../vendor/autoload.php
     paths:
         - ../Classes
-    ignoreErrors:
-        - '#^Access to an undefined property Contao\\FrontendTemplate::*#'
-        - '#^Cannot call method load\(\) on Symfony\\Component\\Config\\Loader\\LoaderInterface*#'
     excludePaths:
         - ../Classes/Contao/Elements/*

@@ -2,10 +2,12 @@
 
 /**
  * @since       19.03.2025 - 15:13
+ *
  * @author      Patrick Froch <info@netgroup.de>
+ *
  * @see         http://www.netgroup.de
+ *
  * @copyright   NetGroup GmbH 2025
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -75,7 +77,7 @@ class LazyLoadCacheTest extends TestCase
     }
 
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $this->cache->tearDown();
     }

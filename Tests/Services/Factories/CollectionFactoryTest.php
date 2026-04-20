@@ -2,10 +2,12 @@
 
 /**
  * @since       15.09.2024 - 08:00
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -165,7 +167,7 @@ class CollectionFactoryTest extends TestCase
     {
         $data = ['test' => 'Array'];
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('toArray')
                               ->willReturn($data);
 

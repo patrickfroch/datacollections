@@ -2,10 +2,12 @@
 
 /**
  * @since       14.09.2024 - 16:09
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -23,7 +25,6 @@ use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-
 
 enum MyTablenames implements TablenamesInterface
 {
@@ -110,7 +111,7 @@ class ConfigurationHelperTest extends TestCase
 
     public function testIsLazyLodingFieldReturnFalseIfDepandancysAreNull(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn(null);
@@ -121,7 +122,7 @@ class ConfigurationHelperTest extends TestCase
 
     public function testIsLazyLodingFieldReturnTrueIfDepandancysAreNotNull(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
@@ -132,19 +133,20 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetForeignTableRetrunNullIfDepandendysAreEmpty(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn(null);
 
-        $this->arrayCollection->expects(self::never())
+        $this->arrayCollection->expects($this->never())
                               ->method('getValue');
 
-        $this->nameFactory->expects(self::never())
+        $this->nameFactory->expects($this->never())
                           ->method('createTablenameFromString');
 
         $this->assertNull($this->helper->getForeignTable($this->table, $this->field));
@@ -153,23 +155,24 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetForeignTableRetrunObjectIfDepandendysAreNotEmpty(): void
     {
         $tablename = 'tl_test';
 
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::table->name)
                               ->willReturn($tablename);
 
-        $this->nameFactory->expects(self::once())
+        $this->nameFactory->expects($this->once())
                           ->method('createTablenameFromString')
                           ->with($tablename)
                           ->willReturn($this->table);
@@ -180,19 +183,20 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetForeignFieldRetrunNullIfDepandendysAreEmpty(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn(null);
 
-        $this->arrayCollection->expects(self::never())
+        $this->arrayCollection->expects($this->never())
                               ->method('getValue');
 
-        $this->nameFactory->expects(self::never())
+        $this->nameFactory->expects($this->never())
                           ->method('createFieldnameFromString');
 
         $this->assertNull($this->helper->getForeignField($this->table, $this->field));
@@ -201,23 +205,24 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetForeignFieldRetrunObjectIfDepandendysAreNotEmpty(): void
     {
         $fieldname = 'testfield';
 
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::field->name)
                               ->willReturn($fieldname);
 
-        $this->nameFactory->expects(self::once())
+        $this->nameFactory->expects($this->once())
                           ->method('createFieldnameFromString')
                           ->with($fieldname, $this->table)
                           ->willReturn($this->field);
@@ -228,16 +233,17 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testIsSerialisedReturnFalseIfDepandendysAreEmpty(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn(null);
 
-        $this->arrayCollection->expects(self::never())
+        $this->arrayCollection->expects($this->never())
                               ->method('getValue');
 
         $this->assertFalse($this->helper->isSerialised($this->table, $this->field));
@@ -246,16 +252,17 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testIsSerialisedReturnFalseIfFieldIsNotSerialised(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::serialised->name)
                               ->willReturn(false);
@@ -266,16 +273,17 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testIsSerialisedReturnTrueIfFieldIsSerialised(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::serialised->name)
                               ->willReturn(true);
@@ -286,16 +294,17 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testIsSerialisedReturnTrueIfFieldIsSerialisedAndValueIsAString(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::serialised->name)
                               ->willReturn('true');
@@ -306,16 +315,17 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testIsSerialisedReturnTrueIfFieldIsSerialisedAndValueIsOne(): void
     {
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getDepandancies')
                         ->with($this->table, $this->field)
                         ->willReturn($this->arrayCollection);
 
-        $this->arrayCollection->expects(self::once())
+        $this->arrayCollection->expects($this->once())
                               ->method('getValue')
                               ->with(DcaConfig::serialised->name)
                               ->willReturn(1);
@@ -326,18 +336,19 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetChildFieldReturnNullIfChildFieldIsNotDefined(): void
     {
         $fieldname = '';
 
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getChildDepandancies')
                         ->with($this->table)
                         ->willReturn($fieldname);
 
-        $this->nameFactory->expects(self::never())
+        $this->nameFactory->expects($this->never())
                           ->method('createFieldnameFromString');
 
         $this->assertNull($this->helper->getChildField($this->table, $this->table));
@@ -346,18 +357,19 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetChildFieldReturnFieldNameIfChildFieldIsDefined(): void
     {
         $fieldname = 'pid';
 
-        $this->dcaHelper->expects(self::once())
+        $this->dcaHelper->expects($this->once())
                         ->method('getChildDepandancies')
                         ->with($this->table)
                         ->willReturn($fieldname);
 
-        $this->nameFactory->expects(self::once())
+        $this->nameFactory->expects($this->once())
                           ->method('createFieldnameFromString')
                           ->with($fieldname, $this->table)
                           ->willReturn($this->field);
@@ -368,11 +380,12 @@ class ConfigurationHelperTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Doctrine\DBAL\Exception
      */
     public function testGetChildTable(): void
     {
-        $this->nameFactory->expects(self::once())
+        $this->nameFactory->expects($this->once())
                           ->method('createTablenameFromInterface')
                           ->with(MyTablenames::tl_test)
                           ->willReturn($this->table);

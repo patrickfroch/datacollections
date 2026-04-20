@@ -2,10 +2,12 @@
 
 /**
  * @since       17.09.2024 - 09:45
+ *
  * @author      Patrick Froch <info@netgroup.de>
+ *
  * @see         http://www.netgroup.de
+ *
  * @copyright   NetGroup GmbH 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -71,12 +73,12 @@ class ConverterHelperTest extends TestCase
     {
         $value = \serialize(['test' => 'value', 'test1' => 'value1']);
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn(\unserialize($value));
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createArrayCollection')
                                 ->with(\unserialize($value))
                                 ->willReturn($this->collection);
@@ -89,12 +91,12 @@ class ConverterHelperTest extends TestCase
     {
         $value = ['test' => 'value', 'test1' => 'value1'];
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn($value);
 
-        $this->collectionFactory->expects(self::once())
+        $this->collectionFactory->expects($this->once())
                                 ->method('createArrayCollection')
                                 ->with($value)
                                 ->willReturn($this->collection);
@@ -107,12 +109,12 @@ class ConverterHelperTest extends TestCase
     {
         $value = 'value1';
 
-        $this->serializeHelper->expects(self::once())
+        $this->serializeHelper->expects($this->once())
                               ->method('unserialize')
                               ->with($value)
                               ->willReturn($value);
 
-        $this->collectionFactory->expects(self::never())
+        $this->collectionFactory->expects($this->never())
                                 ->method('createArrayCollection');
 
         $this->assertSame($value, $this->helper->convertArrayToCollection($value));

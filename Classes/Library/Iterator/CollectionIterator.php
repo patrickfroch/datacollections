@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -17,17 +16,20 @@ namespace Esit\Datacollections\Classes\Library\Iterator;
 
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
 
+/**
+ * @extends \ArrayIterator<int|string, mixed>
+ */
 class CollectionIterator extends \ArrayIterator
 {
 
 
     /**
-     * @param array|object         $iterator
+     * @param array<mixed>         $iterator
      * @param int                  $flags
      * @param ConverterHelper|null $converterHelper
      */
     public function __construct(
-        array|object $iterator,
+        array $iterator,
         int $flags = 0,
         private readonly ?ConverterHelper $converterHelper = null
     ) {
@@ -40,6 +42,10 @@ class CollectionIterator extends \ArrayIterator
      */
     public function current(): mixed
     {
+        if (null === $this->converterHelper) {
+            return parent::current();
+        }
+
         return $this->converterHelper->convertArrayToCollection(parent::current());
     }
 }

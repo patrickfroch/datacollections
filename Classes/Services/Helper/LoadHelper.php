@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -74,6 +73,10 @@ class LoadHelper
         FieldnameValue $foreignField,
         mixed $value
     ): ?AbstractDatabaseRowCollection {
+        if (!\is_int($value) && !\is_string($value)) {
+            return null;
+        }
+
         $data = $this->dbHelper->loadOneByValue($value, $foreignField->value(), $foreignTable->value());
 
         if (!empty($data)) {
@@ -87,9 +90,9 @@ class LoadHelper
     /**
      * Lädt mehrere Daten aus einer Fremdtabelle.
      *
-     * @param TablenameValue $foreignTable
-     * @param FieldnameValue $foreignField
-     * @param string|array   $value
+     * @param TablenameValue      $foreignTable
+     * @param FieldnameValue      $foreignField
+     * @param string|array<mixed> $value
      *
      * @return ArrayCollection|null
      *
@@ -103,7 +106,14 @@ class LoadHelper
         $search = $this->serializeHelper->unserialize($value);
 
         if (true === \is_array($search)) {
-            $data = $this->dbHelper->loadByList($search, $foreignField->value(), $foreignTable->value());
+            $searchList = \array_filter(
+                \array_map(
+                    static fn (mixed $item): ?string => \is_scalar($item) ? (string) $item : null,
+                    $search
+                ),
+                static fn (mixed $item): bool => null !== $item
+            );
+            $data = $this->dbHelper->loadByList($searchList, $foreignField->value(), $foreignTable->value());
 
             if (!empty($data)) {
                 return $this->collectionFactory->createMultiDatabaseRowCollection($foreignTable, $data);

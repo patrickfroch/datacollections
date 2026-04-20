@@ -8,7 +8,6 @@
  * @see         http://www.netgroup.de
  *
  * @copyright   NetGroup GmbH 2024
- * @license     EULA
  */
 
 declare(strict_types=1);

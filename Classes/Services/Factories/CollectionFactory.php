@@ -8,7 +8,6 @@
  * @see         http://easySolutionsIT.de
  *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -70,7 +69,7 @@ class CollectionFactory
      * Erstellt eine allgemiengültige Map, ohne speziellen Typ.
      * Ist der Parameter $data leer, wird eine leere Map erstellt.
      *
-     * @param array $data
+     * @param array<mixed> $data
      *
      * @return ArrayCollection
      */
@@ -83,8 +82,8 @@ class CollectionFactory
     /**
      * Erstellt eine DatabaseRowMap.
      *
-     * @param TablenameValue        $tablename
-     * @param array|ArrayCollection $data
+     * @param TablenameValue               $tablename
+     * @param array<mixed>|ArrayCollection $data
      *
      * @return DatabaseRowCollection
      */
@@ -111,7 +110,7 @@ class CollectionFactory
      * Erzeugt eine ArrayMap mit einer DatabaseRowMap pro Tabellenzeile.
      *
      * @param TablenameValue $tablename
-     * @param array          $data
+     * @param array<mixed>   $data
      *
      * @return ArrayCollection
      */
@@ -121,7 +120,7 @@ class CollectionFactory
 
         if (!empty($data)) {
             foreach ($data as $i => $row) {
-                $multiData->setValue($i, $this->createDatabaseRowCollection($tablename, $row));
+                $multiData->setValue($i, $this->createDatabaseRowCollection($tablename, (array) $row));
             }
         }
 

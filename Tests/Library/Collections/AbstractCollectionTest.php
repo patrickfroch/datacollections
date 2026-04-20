@@ -2,10 +2,12 @@
 
 /**
  * @since       15.09.2024 - 08:32
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -20,7 +22,6 @@ use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-
 
 class ConcreteCollection extends AbstractCollection
 {
@@ -103,6 +104,7 @@ class AbstractCollectionTest extends TestCase
 
     /**
      * @return void
+     *
      * @throws \Exception
      */
     public function testSet(): void

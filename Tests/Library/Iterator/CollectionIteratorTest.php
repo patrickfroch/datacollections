@@ -2,10 +2,12 @@
 
 /**
  * @since       17.09.2024 - 09:38
+ *
  * @author      Patrick Froch <info@netgroup.de>
+ *
  * @see         http://www.netgroup.de
+ *
  * @copyright   NetGroup GmbH 2024
- * @license     EULA
  */
 
 declare(strict_types=1);
@@ -62,7 +64,7 @@ class CollectionIteratorTest extends TestCase
 
     public function testCurrent(): void
     {
-        $this->converterHelper->expects(self::once())
+        $this->converterHelper->expects($this->once())
                               ->method('convertArrayToCollection')
                               ->with($this->data[0])
                               ->willReturn($this->collection);

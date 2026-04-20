@@ -1,29 +1,31 @@
 {
-    "name": "esit/datacollections",
+    "name": "patrickfroch/datacollections",
     "description": "Es handelt sich um eine Erweiterung für das Open Source CMS Contao. Die Software stellt zwei Collections zur Verfügung und ist als Ersatz für den Einsatz für Arrays gedacht.",
-    "license": "proprietary",
+    "license": "LGPL-3.0-or-later",
     "type": "contao-bundle",
     "authors": [
         {
             "name": "Patrick Froch",
-            "email": "info@easySolutionsIT.de",
-            "homepage": "http://easySolutionsIT.de",
+            "email": "hallo@patrick-froch.de",
+            "homepage": "https://patrick-froch.de",
             "role": "Developer"
         }
     ],
     "support": {
-        "email": "info@easySolutionsIT.de"
+        "email": "hallo@patrick-froch.de",
+        "issues": "https://github.com/patrickfroch/datacollections/issues",
+        "docs": "https://github.com/patrickfroch/datacollections/blob/main/README.md"
     },
     "require": {
-        "php": "^8.2",
-        "contao/core-bundle": "^5.3",
-        "esit/valueobjects": "^1.0",
-        "esit/databaselayer": "^1.0",
-        "esit/ctoadapter": "^1.0"
+        "php": "^8.1",
+        "contao/core-bundle": "^5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "roave/security-advisories": "dev-master"
+        "contao/test-case": "^5.3",
+        "phpunit/phpunit": "^9.5|^12.0",
+        "phpstan/phpstan": "^2.1",
+        "symplify/easy-coding-standard": "^13.0",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "autoload": {
         "psr-4": {

@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.1",
         "contao/core-bundle": "^5.0",
+        "patrickfroch/ctoadapter": "^2.0",
         "patrickfroch/databaselayer": "^2.0",
         "patrickfroch/valueobjects": "^2.0"
     },

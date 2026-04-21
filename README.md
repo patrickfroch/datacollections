@@ -25,8 +25,8 @@ Die Software wird unter LGPL-v3 veröffentlicht. Details sind in der Datei `LICE
 
 - php: ^8.1
 - contao/core-bundle:^5.3
-- esit/valueobjects: ^1.0
-- esit/databaselayer: ^1.0
+- patrickfroch/databaselayer: ^1.0
+- patrickfroch/valueobjects: ^2.0
 
 
 ## Installation

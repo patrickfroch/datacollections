@@ -21,9 +21,20 @@ use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\DcaHelper;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+class TestController extends Controller
+{
+    public function loadDataContainer(): void
+    {
+    }
+
+
+}
+
+#[AllowMockObjectsWithoutExpectations]
 class DcaHelperTest extends TestCase
 {
 
@@ -85,9 +96,8 @@ class DcaHelperTest extends TestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
 
-        $this->controller           = $this->getMockBuilder(Controller::class)
+        $this->controller           = $this->getMockBuilder(TestController::class)
                                            ->disableOriginalConstructor()
-                                           ->addMethods(['loadDataContainer'])
                                            ->getMock();
 
         $this->helper               = new DcaHelper($this->controller);

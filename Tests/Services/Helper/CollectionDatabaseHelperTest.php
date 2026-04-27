@@ -25,6 +25,7 @@ use Esit\Valueobjects\Classes\Database\Enums\TablenamesInterface;
 use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 
 enum Tablenames implements TablenamesInterface
@@ -38,6 +39,7 @@ enum Fieldnames implements FieldnamesInterface
     case uuid;
 }
 
+#[AllowMockObjectsWithoutExpectations]
 class CollectionDatabaseHelperTest extends EsitTestCase
 {
 

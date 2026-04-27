@@ -23,9 +23,11 @@ use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
 use Esit\Datacollections\Classes\Services\Helper\LazyLoadHelper;
 use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class CollectionFactoryTest extends TestCase
 {
 

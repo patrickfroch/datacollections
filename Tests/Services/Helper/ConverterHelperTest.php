@@ -18,9 +18,11 @@ use Esit\Databaselayer\Classes\Services\Helper\SerializeHelper;
 use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class ConverterHelperTest extends TestCase
 {
 

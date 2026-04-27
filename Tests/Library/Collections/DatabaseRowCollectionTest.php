@@ -28,6 +28,7 @@ use Esit\Valueobjects\Classes\Database\Enums\TablenamesInterface;
 use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -41,6 +42,7 @@ enum MyTablenames implements TablenamesInterface
     case tl_test;
 }
 
+#[AllowMockObjectsWithoutExpectations]
 class DatabaseRowCollectionTest extends TestCase
 {
 

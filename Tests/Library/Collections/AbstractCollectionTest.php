@@ -20,6 +20,7 @@ use Esit\Datacollections\Classes\Library\Collections\AbstractCollection;
 use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Datacollections\Classes\Services\Factories\CollectionFactory;
 use Esit\Datacollections\Classes\Services\Helper\ConverterHelper;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +37,7 @@ class ConcreteCollection extends AbstractCollection
     }
 }
 
-
+#[AllowMockObjectsWithoutExpectations]
 class AbstractCollectionTest extends TestCase
 {
 

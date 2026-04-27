@@ -22,9 +22,11 @@ use Esit\Datacollections\Classes\Services\Helper\LazyLoadHelper;
 use Esit\Datacollections\Classes\Services\Helper\LoadHelper;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class LazyLoadHelperTest extends TestCase
 {
 

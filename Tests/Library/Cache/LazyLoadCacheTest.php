@@ -18,9 +18,11 @@ use Esit\Datacollections\Classes\Library\Cache\LazyLoadCache;
 use Esit\Datacollections\Classes\Library\Collections\ArrayCollection;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class LazyLoadCacheTest extends TestCase
 {
 

@@ -24,6 +24,7 @@ class EsitTestCase extends TestCase
      */
     protected function setUp(): void
     {
+        parent::setUp();
     }
 
 
@@ -32,6 +33,7 @@ class EsitTestCase extends TestCase
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
     }
 
 

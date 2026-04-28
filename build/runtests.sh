@@ -160,12 +160,17 @@ fi
 ## PHPUnit
 if [ -f ../../../vendor/bin/phpunit ] && [ -d ./Tests ]
 then
-    phpunitversion=`../../../vendor/bin/phpunit --version`
-    phpunitconfig="${configFolder}/phpunit/phpunit-12.xml.dist"
+    phpunitconfig="${configFolder}/phpunit/phpunit.xml.dist"
 
-    if [[ "$phpunitversion" == "PHPUnit 9."* ]]
+    if [[ ! -f "${phpunitconfig}" ]]
     then
-        phpunitconfig="${configFolder}/phpunit/phpunit-9.xml.dist"
+        phpunitversion=`../../../vendor/bin/phpunit --version`
+        phpunitconfig="${configFolder}/phpunit/phpunit-12.xml.dist"
+
+        if [[ "$phpunitversion" == "PHPUnit 9."* ]]
+        then
+            phpunitconfig="${configFolder}/phpunit/phpunit-9.xml.dist"
+        fi
     fi
 
     # PHPUnit gobal mit composer installiert
